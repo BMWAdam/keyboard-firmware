@@ -47,3 +47,5 @@ jobs:
           files: |
             build-artifacts/*.uf2
             build-artifacts/*.elf
+            build-artifacts/*.bin
+            build-artifacts/*.hex
