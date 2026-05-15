@@ -9,18 +9,28 @@
       flake = false;
     };
 
-    zmk-nix = {
-      url = "github:lilyinstarlight/zmk-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+    openocd-src = {
+      url = "git+https://github.com/raspberrypi/openocd.git?submodules=1";
+      flake = false;
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, freertos, zmk-nix }:
+  outputs = { self, nixpkgs, flake-utils, freertos, openocd-src }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
 
         pico-sdk-full = pkgs.pico-sdk.override { withSubmodules = true; };
+
+        openocd-pico = pkgs.openocd.overrideAttrs (old: {
+          pname = "openocd-pico";
+          version = "rp2350-latest";
+          src = openocd-src;
+
+          nativeBuildInputs = (old.nativeBuildInputs or []) ++ [
+            pkgs.autoreconfHook
+          ];
+        });
 
         fw = pkgs.stdenv.mkDerivation {
           pname = "pico2w-keyboard-fw";
@@ -78,12 +88,67 @@
       in {
         packages.default = fw;
 
+        apps.flash = {
+          type = "app";
+          program = let
+            flashScript = pkgs.writeShellScriptBin "flash-pico2w" ''
+              # 1. Walk up the directory tree to find the project root containing flake.nix
+              PROJECT_ROOT="$PWD"
+              while [ ! -f "$PROJECT_ROOT/flake.nix" ]; do
+                if [ "$PROJECT_ROOT" = "/" ]; then
+                  echo "Error: flake.nix not found in current or any parent directories!"
+                  exit 1
+                fi
+                PROJECT_ROOT=$(dirname "$PROJECT_ROOT")
+              done
+
+              echo "Project root found at: $PROJECT_ROOT"
+              
+              # 2. Change to the project root
+              cd "$PROJECT_ROOT"
+              cd debug
+
+              # Ensure the config file actually exists where we expect it
+              if [ ! -f "openocd.cfg" ]; then
+                echo "Error: openocd.cfg not found!"
+                exit 1
+              fi
+
+              # 3. Explicitly build the firmware
+              echo "Building firmware..."
+              nix build .
+
+              if [ $? -ne 0 ]; then
+                echo "Error: nix build failed!"
+                exit 1
+              fi
+
+              # 4. Find the .elf file in the newly generated ./result directory
+              ELF_FILE=$(ls ./result/*.elf | head -n 1)
+
+              if [ -z "$ELF_FILE" ]; then
+                echo "Error: No .elf file found in ./result/!"
+                exit 1
+              fi
+
+              # 5. Flash the firmware using custom OpenOCD, correct script path, and Core 1 sysresetreq fix
+              echo "Flashing: $ELF_FILE"
+              ${openocd-pico}/bin/openocd \
+                -s ${openocd-pico}/share/openocd/scripts \
+                -f openocd.cfg \
+                -c "program \"$ELF_FILE\" verify reset exit"
+            '';
+          in "${flashScript}/bin/flash-pico2w";
+        };
+
         devShells.default = pkgs.mkShell {
           nativeBuildInputs = with pkgs; [
             cmake
             gcc-arm-embedded
             ninja
             python3
+            picotool
+            openocd-pico
           ];
           
           buildInputs = with pkgs; [

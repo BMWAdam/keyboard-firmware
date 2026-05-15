@@ -52,12 +52,30 @@
         "type": "github"
       }
     },
+    "openocd-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1773844377,
+        "narHash": "sha256-ezS0zTQhiOHoBrLpkluCRunJ2UhR+hDq7bcUpWZ9Chc=",
+        "ref": "refs/heads/rpi-common",
+        "rev": "acff23ffd100479d6481a1155123774b79a990b9",
+        "revCount": 10980,
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/raspberrypi/openocd.git"
+      },
+      "original": {
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/raspberrypi/openocd.git"
+      }
+    },
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
         "freertos": "freertos",
         "nixpkgs": "nixpkgs",
-        "zmk-nix": "zmk-nix"
+        "openocd-src": "openocd-src"
       }
     },
     "systems": {
@@ -72,26 +90,6 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
-        "type": "github"
-      }
-    },
-    "zmk-nix": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1778375761,
-        "narHash": "sha256-Ek54OaBmbInXw45ueRVff+EcsMQO1KsQGqHFiS4WoZQ=",
-        "owner": "lilyinstarlight",
-        "repo": "zmk-nix",
-        "rev": "cf7d1140866f3825f858fc775ed3039705386eb0",
-        "type": "github"
-      },
-      "original": {
-        "owner": "lilyinstarlight",
-        "repo": "zmk-nix",
         "type": "github"
       }
     }
