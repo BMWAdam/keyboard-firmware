@@ -8,6 +8,10 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+# Required to allow the workflow to create a GitHub Release
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build Nix Flake
@@ -18,28 +22,28 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Nix
-        # The Determinate Systems installer is the modern standard for GitHub Actions.
-        # It automatically enables flakes and nix-command.
         uses: DeterminateSystems/nix-installer-action@main
 
       - name: Set up Magic Nix Cache
-        # Optional but highly recommended: caches your Nix derivations to speed up future runs.
         uses: DeterminateSystems/magic-nix-cache-action@main
 
       - name: Build firmware
         run: nix build .
 
       - name: Prepare Artifacts
-        # actions/upload-artifact sometimes struggles with /nix/store symlinks.
-        # We copy the actual files out of the 'result' symlink to a staging directory.
+        # Copy the actual files out of the read-only Nix store symlink
         run: |
           mkdir -p build-artifacts
           cp -rL result/* build-artifacts/
 
-      - name: Upload Firmware
-        uses: actions/upload-artifact@v4
+      - name: Create Nightly Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: pico2w-keyboard-firmware
-          path: build-artifacts/
-          if-no-files-found: error
-          retention-days: 90
+          tag_name: nightly
+          name: Latest Firmware Build
+          # Automatically updates the "nightly" release with the newest files
+          make_latest: true
+          # Upload the raw .uf2 and .elf files directly so they aren't zipped
+          files: |
+            build-artifacts/*.uf2
+            build-artifacts/*.elf
