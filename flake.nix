@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+
     freertos = {
       url = "git+https://github.com/raspberrypi/FreeRTOS-Kernel.git?submodules=1";
       flake = false;
