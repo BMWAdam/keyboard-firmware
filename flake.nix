@@ -84,6 +84,8 @@
             mkdir -p $out
             # Copy all generated firmware binaries to the output directory
             cp *.uf2 *.elf *.hex *.bin $out/ || echo "No binaries found to copy."
+
+            cp compile_commands.json $out
           '';
         };
       in {

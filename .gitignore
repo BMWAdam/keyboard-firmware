@@ -1,3 +1,5 @@
 **/result/
 .direnv/
 **result
+
+compile_commands.json

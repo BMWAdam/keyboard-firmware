@@ -9,7 +9,7 @@
 
 #define MY_TASK_PRIORITY  2
 
-static void my_task(void *data);
+static void key_scanning_task(void *data);
 
 int main() {
     stdio_init_all();
@@ -19,14 +19,14 @@ int main() {
         return -1;
     }
 
-    xTaskCreate(my_task, "application_task", configMINIMAL_STACK_SIZE, NULL, MY_TASK_PRIORITY, NULL);
+    xTaskCreate(key_scanning_task, "application_task", configMINIMAL_STACK_SIZE, NULL, MY_TASK_PRIORITY, NULL);
 
     vTaskStartScheduler();
     // we should never return from FreeRTOS
     panic_unsupported();
 }
 
-void my_task(void *data) {
+void key_scanning_task(void *data) {
     (void)data; // unused parameter
 
     bool led_state = false;
