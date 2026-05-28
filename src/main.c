@@ -5,12 +5,19 @@
 #include <FreeRTOS.h>
 #include <task.h>
 
+#include "pico/cyw43_arch.h"
+
 #define MY_TASK_PRIORITY  2
 
 static void my_task(void *data);
 
 int main() {
     stdio_init_all();
+
+    if (cyw43_arch_init()) {
+        printf("Wi-Fi / CYW43 init failed\n");
+        return -1;
+    }
 
     xTaskCreate(my_task, "application_task", configMINIMAL_STACK_SIZE, NULL, MY_TASK_PRIORITY, NULL);
 
@@ -22,11 +29,15 @@ int main() {
 void my_task(void *data) {
     (void)data; // unused parameter
 
+    bool led_state = false;
+
     printf("user task started\n");
 
     for (;;) {
+        led_state = !led_state;
         // Do something interesting here
-        printf("My task is running!\n");
+        cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, led_state);
+        printf("My task is running! LED is %s\n", led_state ? "ON" : "OFF");
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
     // Do not let a task procedure return

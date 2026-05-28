@@ -57,7 +57,8 @@ target_link_libraries(k60
     pico_unique_id
     pico_multicore
     FreeRTOS-Kernel
-    FreeRTOS-Kernel-Heap4)
+    FreeRTOS-Kernel-Heap4
+    pico_cyw43_arch_none)
 
 pico_add_extra_outputs(k60)
 
