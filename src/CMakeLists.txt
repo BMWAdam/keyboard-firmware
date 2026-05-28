@@ -39,13 +39,17 @@ set(FREERTOS_KERNEL_PATH $ENV{FREERTOS_KERNEL_PATH})
 include(FreeRTOS_Kernel_Import.cmake)
 
 add_executable(k60
-    main.c)
+    main.c
+    usb_descriptors.c)
 
 pico_set_program_name(k60 "k60")
 pico_set_program_version(k60 "0.1")
 
-pico_enable_stdio_uart(k60 0)
-pico_enable_stdio_usb(k60 1)
+# Turn OFF default USB stdio to prevent conflicts with our custom TinyUSB setup
+pico_enable_stdio_usb(k60 0)
+
+# Optional: Turn ON UART if you want standard printf() to go out via physical pins
+pico_enable_stdio_uart(k60 1)
 
 target_include_directories(k60 PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}
@@ -58,7 +62,9 @@ target_link_libraries(k60
     pico_multicore
     FreeRTOS-Kernel
     FreeRTOS-Kernel-Heap4
-    pico_cyw43_arch_none)
+    pico_cyw43_arch_none
+    tinyusb_device
+    tinyusb_board)
 
 pico_add_extra_outputs(k60)
 

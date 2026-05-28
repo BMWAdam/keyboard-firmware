@@ -5,11 +5,32 @@
 #include <FreeRTOS.h>
 #include <task.h>
 
+#include "tusb.h"
 #include "pico/cyw43_arch.h"
 
 #define MY_TASK_PRIORITY  2
+#define USB_TASK_PRIORITY 3
 
 static void key_scanning_task(void *data);
+static void usb_device_task(void *data);
+
+static void send_hid_key(uint8_t modifier, uint8_t keycode) {
+    // Drop the keystroke if the USB host is not ready
+    if (!tud_hid_ready()) return;
+
+    // 1. Send Key Press
+    uint8_t keycodes[6] = { keycode, 0, 0, 0, 0, 0 };
+    tud_hid_keyboard_report(0, modifier, keycodes);
+    
+    // Give the OS time to process the press (15-20ms is usually safe)
+    vTaskDelay(pdMS_TO_TICKS(15)); 
+
+    // 2. Send Key Release (all zeros means no keys are currently held down)
+    tud_hid_keyboard_report(0, 0, NULL);
+    
+    // Delay before the next potential keystroke so we don't overwhelm the host
+    vTaskDelay(pdMS_TO_TICKS(15));
+}
 
 int main() {
     stdio_init_all();
@@ -19,29 +40,105 @@ int main() {
         return -1;
     }
 
-    xTaskCreate(key_scanning_task, "application_task", configMINIMAL_STACK_SIZE, NULL, MY_TASK_PRIORITY, NULL);
+    xTaskCreate(usb_device_task, "usb_task", configMINIMAL_STACK_SIZE * 2, NULL, USB_TASK_PRIORITY, NULL);
+    xTaskCreate(key_scanning_task, "application_task", configMINIMAL_STACK_SIZE * 2, NULL, MY_TASK_PRIORITY, NULL);
 
     vTaskStartScheduler();
     // we should never return from FreeRTOS
     panic_unsupported();
 }
 
-void key_scanning_task(void *data) {
-    (void)data; // unused parameter
+void usb_device_task(void *data) {
+    (void)data;
+    tud_init(0);
+    
+    for (;;) {
+        tud_task(); // TinyUSB device task handler
+        vTaskDelay(pdMS_TO_TICKS(1));
+    }
+}
 
+void key_scanning_task(void *data) {
+    (void)data;
     bool led_state = false;
+    char rx_buffer[64];
 
     printf("user task started\n");
 
     for (;;) {
+        if (tud_cdc_available()) {
+            uint32_t count = tud_cdc_read(rx_buffer, sizeof(rx_buffer) - 1);
+            rx_buffer[count] = '\0';
+            
+            printf("Received: %s\n", rx_buffer);
+
+            send_hid_key(KEYBOARD_MODIFIER_LEFTSHIFT, HID_KEY_A);
+
+            tud_cdc_write_str("Typing: ");
+            tud_cdc_write(rx_buffer, count);
+            tud_cdc_write_str("\r\n");
+            tud_cdc_write_flush();
+
+            for (uint32_t i = 0; i < count; i++) {
+                char c = rx_buffer[i];
+                uint8_t modifier = 0;
+                uint8_t keycode = 0;
+
+                if (c >= 'a' && c <= 'z') {
+                    keycode = HID_KEY_A + (c - 'a');
+                } 
+                else if (c >= 'A' && c <= 'Z') {
+                    keycode = HID_KEY_A + (c - 'A');
+                    modifier = KEYBOARD_MODIFIER_LEFTSHIFT;
+                } 
+                else if (c >= '1' && c <= '9') {
+                    keycode = HID_KEY_1 + (c - '1');
+                } 
+                else if (c == '0') {
+                    keycode = HID_KEY_0;
+                } 
+                else if (c == ' ') {
+                    keycode = HID_KEY_SPACE;
+                } 
+                else if (c == '\r' || c == '\n') {
+                    keycode = HID_KEY_ENTER;
+                }
+                // TODO (Add more symbols like punctuation here if needed)
+
+                // If we found a valid mapping, send it
+                if (keycode != 0) {
+                    send_hid_key(modifier, keycode);
+                }
+            }
+        }
+
         led_state = !led_state;
-        // Do something interesting here
         cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, led_state);
-        printf("My task is running! LED is %s\n", led_state ? "ON" : "OFF");
-        vTaskDelay(pdMS_TO_TICKS(1000));
+        vTaskDelay(pdMS_TO_TICKS(10));
     }
-    // Do not let a task procedure return
+    
     vTaskDelete(NULL);
+}
+
+// --------------------------------------------------------------------+
+// TinyUSB HID Callbacks
+// --------------------------------------------------------------------+
+uint16_t tud_hid_get_report_cb(uint8_t instance, uint8_t report_id, hid_report_type_t report_type, uint8_t* buffer, uint16_t reqlen) {
+    (void) instance;
+    (void) report_id;
+    (void) report_type;
+    (void) buffer;
+    (void) reqlen;
+
+    return 0; 
+}
+
+void tud_hid_set_report_cb(uint8_t instance, uint8_t report_id, hid_report_type_t report_type, uint8_t const* buffer, uint16_t bufsize) {
+    (void) instance;
+    (void) report_id;
+    (void) report_type;
+    (void) buffer;
+    (void) bufsize;
 }
 
 /*

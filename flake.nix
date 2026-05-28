@@ -152,6 +152,8 @@
             python3
             picotool
             openocd-pico
+            gdb
+            picocom
           ];
           
           buildInputs = with pkgs; [
