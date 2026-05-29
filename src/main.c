@@ -17,20 +17,11 @@ static void key_scanning_task(void *data);
 static void usb_device_task(void *data);
 
 static void send_hid_key(uint8_t modifier, uint8_t keycode) {
-    // Drop the keystroke if the USB host is not ready
     if (!tud_hid_ready()) return;
-
-    // 1. Send Key Press
     uint8_t keycodes[6] = { keycode, 0, 0, 0, 0, 0 };
     tud_hid_keyboard_report(0, modifier, keycodes);
-    
-    // Give the OS time to process the press (15-20ms is usually safe)
     vTaskDelay(pdMS_TO_TICKS(15)); 
-
-    // 2. Send Key Release (all zeros means no keys are currently held down)
     tud_hid_keyboard_report(0, 0, NULL);
-    
-    // Delay before the next potential keystroke so we don't overwhelm the host
     vTaskDelay(pdMS_TO_TICKS(15));
 }
 
@@ -58,7 +49,7 @@ void usb_device_task(void *data) {
     tud_init(0);
     
     for (;;) {
-        tud_task(); // TinyUSB device task handler
+        tud_task();
         vTaskDelay(pdMS_TO_TICKS(1));
     }
 }

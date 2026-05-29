@@ -55,5 +55,6 @@ jobs:
             build-artifacts/*.elf
             build-artifacts/*.bin
             build-artifacts/*.hex
-            build-artifacts/win.exe
+            #build-artifacts/win.exe
             build-artifacts/linux
+            #build-artifacts/linux.AppImage

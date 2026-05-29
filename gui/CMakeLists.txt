@@ -5,10 +5,17 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
-qt_standard_project_setup()
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
 
-# The executable target must match the 'cp' commands in the flake ("gui")
-add_executable(gui main.cpp)
-target_link_libraries(gui PRIVATE Qt6::Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Quick Qml SerialPort Widgets)  # <-- Widgets added
+
+qt_add_executable(gui main.cpp)
+qt_add_qml_module(gui
+    URI app
+    VERSION 1.0
+    QML_FILES Main.qml
+)
+
+target_link_libraries(gui PRIVATE Qt6::Quick Qt6::Qml Qt6::SerialPort Qt6::Widgets)
