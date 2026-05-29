@@ -4,3 +4,8 @@
 [Download .uf2 Firmware](https://github.com/BMWAdam/keyboard-firmware/releases/latest/download/k60.uf2)
 
 [Download .elf Debug File](https://github.com/BMWAdam/keyboard-firmware/releases/latest/download/k60.elf)
+
+[Download Windows GUI](https://github.com/BMWAdam/keyboard-firmware/releases/latest/download/win.exe)
+
+[Download Linux GUI](https://github.com/BMWAdam/keyboard-firmware/releases/latest/download/linux)
+
