@@ -4,12 +4,14 @@
 #include <pico/stdio.h>
 #include <FreeRTOS.h>
 #include <task.h>
+#include <ctype.h>
 
 #include "tusb.h"
 #include "pico/cyw43_arch.h"
+#include "leds.h"
 
-#define MY_TASK_PRIORITY  2
-#define USB_TASK_PRIORITY 3
+#define MY_TASK_PRIORITY        2
+#define USB_TASK_PRIORITY       3
 
 static void key_scanning_task(void *data);
 static void usb_device_task(void *data);
@@ -40,8 +42,11 @@ int main() {
         return -1;
     }
 
+    underglow_init();
+
     xTaskCreate(usb_device_task, "usb_task", configMINIMAL_STACK_SIZE * 2, NULL, USB_TASK_PRIORITY, NULL);
     xTaskCreate(key_scanning_task, "application_task", configMINIMAL_STACK_SIZE * 2, NULL, MY_TASK_PRIORITY, NULL);
+    xTaskCreate(underglow_task,    "underglow_task",   configMINIMAL_STACK_SIZE * 2, NULL, UNDERGLOW_TASK_PRIORITY, NULL);
 
     vTaskStartScheduler();
     // we should never return from FreeRTOS
@@ -72,42 +77,67 @@ void key_scanning_task(void *data) {
             
             printf("Received: %s\n", rx_buffer);
 
-            send_hid_key(KEYBOARD_MODIFIER_LEFTSHIFT, HID_KEY_A);
-
-            tud_cdc_write_str("Typing: ");
-            tud_cdc_write(rx_buffer, count);
-            tud_cdc_write_str("\r\n");
-            tud_cdc_write_flush();
-
-            for (uint32_t i = 0; i < count; i++) {
-                char c = rx_buffer[i];
-                uint8_t modifier = 0;
-                uint8_t keycode = 0;
-
-                if (c >= 'a' && c <= 'z') {
-                    keycode = HID_KEY_A + (c - 'a');
-                } 
-                else if (c >= 'A' && c <= 'Z') {
-                    keycode = HID_KEY_A + (c - 'A');
-                    modifier = KEYBOARD_MODIFIER_LEFTSHIFT;
-                } 
-                else if (c >= '1' && c <= '9') {
-                    keycode = HID_KEY_1 + (c - '1');
-                } 
-                else if (c == '0') {
-                    keycode = HID_KEY_0;
-                } 
-                else if (c == ' ') {
-                    keycode = HID_KEY_SPACE;
-                } 
-                else if (c == '\r' || c == '\n') {
-                    keycode = HID_KEY_ENTER;
+            // 1. Attempt to parse input as an integer
+            char *endptr;
+            long input_val = strtol(rx_buffer, &endptr, 10);
+            
+            // 2. Check if the input is genuinely a number (allow trailing \r, \n, or spaces)
+            bool is_valid_number = (endptr != rx_buffer);
+            if (is_valid_number) {
+                for (char *p = endptr; *p != '\0'; p++) {
+                    if (!isspace((unsigned char)*p)) {
+                        is_valid_number = false;
+                        break;
+                    }
                 }
-                // TODO (Add more symbols like punctuation here if needed)
+            }
 
-                // If we found a valid mapping, send it
-                if (keycode != 0) {
-                    send_hid_key(modifier, keycode);
+            // 3. If it's a number between 0 and 255, set brightness
+            if (is_valid_number && input_val >= 0 && input_val <= 255) {
+                char msg[64];
+                int msg_len = snprintf(msg, sizeof(msg), "Brightness set to: %ld\r\n", input_val);
+                tud_cdc_write(msg, msg_len);
+                tud_cdc_write_flush();
+                
+                set_brightness((uint8_t)input_val);
+            } 
+            // 4. Otherwise, treat it as a typing string
+            else {
+                tud_cdc_write_str("Typing: ");
+                tud_cdc_write(rx_buffer, count);
+                tud_cdc_write_str("\r\n");
+                tud_cdc_write_flush();
+
+                for (uint32_t i = 0; i < count; i++) {
+                    char c = rx_buffer[i];
+                    uint8_t modifier = 0;
+                    uint8_t keycode = 0;
+
+                    if (c >= 'a' && c <= 'z') {
+                        keycode = HID_KEY_A + (c - 'a');
+                    } 
+                    else if (c >= 'A' && c <= 'Z') {
+                        keycode = HID_KEY_A + (c - 'A');
+                        modifier = KEYBOARD_MODIFIER_LEFTSHIFT;
+                    } 
+                    else if (c >= '1' && c <= '9') {
+                        keycode = HID_KEY_1 + (c - '1');
+                    } 
+                    else if (c == '0') {
+                        keycode = HID_KEY_0;
+                    } 
+                    else if (c == ' ') {
+                        keycode = HID_KEY_SPACE;
+                    } 
+                    else if (c == '\r' || c == '\n') {
+                        keycode = HID_KEY_ENTER;
+                    }
+                    // TODO (Add more symbols like punctuation here if needed)
+
+                    // If we found a valid mapping, send it
+                    if (keycode != 0) {
+                        //send_hid_key(modifier, keycode);
+                    }
                 }
             }
         }

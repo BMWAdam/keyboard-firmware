@@ -1,4 +1,4 @@
-name: Build Firmware
+name: Build Firmware and GUI
 
 on:
   push:
@@ -27,25 +27,33 @@ jobs:
       - name: Set up Magic Nix Cache
         uses: DeterminateSystems/magic-nix-cache-action@main
 
-      - name: Build firmware
-        run: nix build .
+      - name: Build Firmware
+        # Use a specific symlink name to avoid overwriting
+        run: nix build . --out-link result-fw
+
+      - name: Build GUI
+        # Target the 'gui' output from your flake
+        run: nix build .#gui --out-link result-gui
 
       - name: Prepare Artifacts
-        # Copy the actual files out of the read-only Nix store symlink
+        # Copy the actual files out of both read-only Nix store symlinks
         run: |
           mkdir -p build-artifacts
-          cp -rL result/* build-artifacts/
+          cp -rL result-fw/* build-artifacts/
+          cp -rL result-gui/* build-artifacts/
 
       - name: Create Nightly Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: nightly
-          name: Latest Firmware Build
+          name: Latest Build (Firmware & GUI)
           # Automatically updates the "nightly" release with the newest files
           make_latest: true
-          # Upload the raw .uf2 and .elf files directly so they aren't zipped
+          # Upload the raw binaries directly so they aren't zipped
           files: |
             build-artifacts/*.uf2
             build-artifacts/*.elf
             build-artifacts/*.bin
             build-artifacts/*.hex
+            build-artifacts/win.exe
+            build-artifacts/linux
