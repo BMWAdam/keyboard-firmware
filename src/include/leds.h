@@ -9,7 +9,7 @@
 #include "pico/cyw43_arch.h"
 
 #define LED_PIN       19
-#define LED_COUNT     8
+#define LED_COUNT     61
 #define LED_FREQ_HZ   800000
 #define UNDERGLOW_TASK_PRIORITY 1
 

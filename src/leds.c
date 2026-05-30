@@ -1,3 +1,5 @@
+#include <FreeRTOS.h>
+
 #include "leds.h"
 
 // Private variable to hold the current brightness (0-255).
@@ -36,10 +38,12 @@ void put_pixel(uint32_t pixel_grbw) {
 }
 
 void show_leds(uint32_t *pixels, uint count) {
+    uint32_t irq_state = save_and_disable_interrupts();
     for (uint i = 0; i < count; i++) {
         put_pixel(pixels[i]);
     }
     sleep_us(100);
+    restore_interrupts(irq_state);
 }
 
 // ------------------------------------------------------------------ //
@@ -77,7 +81,7 @@ void underglow_task(void *data) {
             uint8_t hue = hue_offset + (uint8_t)((i * 256) / LED_COUNT);
             pixels[i] = wheel(hue);
         }
-        show_leds(pixels, LED_COUNT);
+        show_leds(pixels, 61);
 
         hue_offset++;
         vTaskDelay(pdMS_TO_TICKS(20));
