@@ -41,7 +41,8 @@ include(FreeRTOS_Kernel_Import.cmake)
 add_executable(k60
     main.c
     usb_descriptors.c
-    leds.c)
+    leds.c
+    cJSON.c)
 
 pico_generate_pio_header(k60 ${CMAKE_CURRENT_LIST_DIR}/ws2812.pio)
 
@@ -63,6 +64,8 @@ target_link_libraries(k60
     hardware_timer
     hardware_pio
     hardware_clocks
+    hardware_flash
+    hardware_sync
     pico_unique_id
     pico_multicore
     FreeRTOS-Kernel

@@ -12,6 +12,7 @@
 #include <QJsonObject>
 #include <QFontDatabase>
 #include <QDir>
+#include <QThread>
 
 #ifndef DEFAULT_DARK_THEME
 #define DEFAULT_DARK_THEME true
@@ -22,7 +23,6 @@ class SerialMonitor : public QObject {
     Q_PROPERTY(QString logText READ logText NOTIFY logTextChanged)
     Q_PROPERTY(QStringList availablePorts READ availablePorts NOTIFY availablePortsChanged)
     Q_PROPERTY(bool isConnected READ isConnected NOTIFY isConnectedChanged)
-    // FIX: Added theme property bound to C++
     Q_PROPERTY(bool isDarkTheme READ isDarkTheme WRITE setIsDarkTheme NOTIFY isDarkThemeChanged)
 
 public:
@@ -140,10 +140,19 @@ public:
         }
 
         m_serial.write("CONFIG_BEGIN\n");
-        const int chunkSize = 128;
-        for (int i = 0; i < content.size(); i += chunkSize)
+        m_serial.waitForBytesWritten(100);
+        QThread::msleep(50); 
+
+        const int chunkSize = 64; 
+        for (int i = 0; i < content.size(); i += chunkSize) {
             m_serial.write(content.mid(i, chunkSize).toUtf8());
+            m_serial.waitForBytesWritten(100);
+            QThread::msleep(5); 
+        }
+
+        QThread::msleep(50);
         m_serial.write("\nCONFIG_END\n");
+        m_serial.waitForBytesWritten(100);
 
         m_logText += "📤 Upload complete.\n";
         emit logTextChanged();
@@ -170,13 +179,35 @@ public:
         }
 
         m_serial.write("UNDERGLOW_CONFIG_BEGIN\n");
-        const int chunkSize = 128;
-        for (int i = 0; i < content.size(); i += chunkSize)
+        m_serial.waitForBytesWritten(100);
+        QThread::msleep(50); 
+
+        const int chunkSize = 64; 
+        for (int i = 0; i < content.size(); i += chunkSize) {
             m_serial.write(content.mid(i, chunkSize).toUtf8());
+            m_serial.waitForBytesWritten(100);
+            QThread::msleep(5); 
+        }
+
+        QThread::msleep(50);
         m_serial.write("\nUNDERGLOW_CONFIG_END\n");
+        m_serial.waitForBytesWritten(100);
 
         m_logText += "📤 Upload complete.\n";
         emit logTextChanged();
+    }
+
+    Q_INVOKABLE void readConfigFromPico() {
+        if (!m_serial.isOpen() || !m_serial.isWritable()) {
+            m_logText += "❌ Cannot read config: Not connected\n";
+            emit logTextChanged();
+            return;
+        }
+
+        m_logText += "📥 Requesting configuration from Pico...\n";
+        emit logTextChanged();
+        
+        m_serial.write("READ_CONFIG\n");
     }
 
 signals:

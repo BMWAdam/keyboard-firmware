@@ -117,12 +117,14 @@ Window {
                     anchors.margins: 12
                     ScrollBar.vertical.policy: ScrollBar.AlwaysOn
 
-                    Text {
+                    TextEdit {
                         text: SerialMonitor.logText
                         color: root.colOnSurfaceVar
                         font.family: "monospace"
                         wrapMode: Text.Wrap
                         width: logScrollView.width - 20
+                        readOnly: true
+                        selectByMouse: true
 
                         onTextChanged: {
                             Qt.callLater(() => {
@@ -187,6 +189,11 @@ Window {
                 MD.Button {
                     text: "Upload Underglow Config File"
                     onClicked: SerialMonitor.pickAndLoadUnderglowConfig()
+                }
+
+                MD.Button {
+                    text: "Read Config from Pico"
+                    onClicked: SerialMonitor.readConfigFromPico()
                 }
             }
         }
