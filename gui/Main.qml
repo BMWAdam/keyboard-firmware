@@ -6,14 +6,12 @@ import Qcm.Material as MD
 Window {
     id: root
     width: 800
-    height: 600
+    height: 650
     visible: true
     title: qsTr("Pico 2 W keyboard configurator")
 
-    // --- Single source of truth for theme ---
     property bool darkMode: SerialMonitor.isDarkTheme
 
-    // --- Color palette recomputes when darkMode flips ---
     property color colSurface:        darkMode ? AppColors.surface        : AppColors.surfaceLight
     property color colSurfaceVariant: darkMode ? AppColors.surfaceVariant : AppColors.surfaceVariantLight
     property color colOnSurface:      darkMode ? AppColors.onSurface      : AppColors.onSurfaceLight
@@ -35,7 +33,6 @@ Window {
             anchors.margins: 24
             spacing: 16
 
-            // --- Header row ---
             RowLayout {
                 Layout.fillWidth: true
 
@@ -76,7 +73,6 @@ Window {
                 }
             }
 
-            // --- Port controls ---
             RowLayout {
                 Layout.alignment: Qt.AlignHCenter
                 spacing: 12
@@ -104,7 +100,6 @@ Window {
                 }
             }
 
-            // --- Log area ---
             Rectangle {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -136,7 +131,6 @@ Window {
                 }
             }
 
-            // --- Send row ---
             RowLayout {
                 Layout.fillWidth: true
                 spacing: 16
@@ -175,25 +169,64 @@ Window {
                 }
             }
 
-            // --- Upload row ---
             RowLayout {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignHCenter
                 enabled: SerialMonitor.isConnected
+                spacing: 12
 
                 MD.Button {
-                    text: "Upload Layout Config File"
+                    text: "Upload Layout Config"
                     onClicked: SerialMonitor.pickAndLoadConfig()
                 }
 
                 MD.Button {
-                    text: "Upload Underglow Config File"
+                    text: "Upload Underglow Config"
                     onClicked: SerialMonitor.pickAndLoadUnderglowConfig()
                 }
 
                 MD.Button {
-                    text: "Read Config from Pico"
+                    text: "Read Layout from Pico"
                     onClicked: SerialMonitor.readConfigFromPico()
+                }
+
+                MD.Button {
+                    text: "Read Underglow from Pico"
+                    onClicked: SerialMonitor.readUnderglowConfigFromPico()
+                }
+            }
+
+            RowLayout {
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignHCenter
+                enabled: SerialMonitor.isConnected
+                spacing: 12
+
+                Text {
+                    text: "Underglow:"
+                    font.bold: true
+                    color: root.colOnSurface
+                    Layout.rightMargin: 8
+                }
+
+                MD.Button {
+                    text: "Toggle"
+                    onClicked: SerialMonitor.sendCommand("UG_TOGGLE")
+                }
+
+                MD.Button {
+                    text: "Next Mode"
+                    onClicked: SerialMonitor.sendCommand("UG_MODE_NEXT")
+                }
+
+                MD.Button {
+                    text: "Dim -"
+                    onClicked: SerialMonitor.sendCommand("UG_VAL_DOWN")
+                }
+
+                MD.Button {
+                    text: "Bright +"
+                    onClicked: SerialMonitor.sendCommand("UG_VAL_UP")
                 }
             }
         }
