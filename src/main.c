@@ -228,7 +228,25 @@ void parse_underglow_json_to_ram() {
     memcpy(u_json_buf, flash_underglow_contents, FLASH_SECTOR_SIZE);
     u_json_buf[FLASH_SECTOR_SIZE - 1] = '\0';
 
-    if (u_json_buf[0] != '{') return;
+    if (u_json_buf[0] != '{') {
+        // FALLBACK: If there is no config, go all white with default brightness
+        for (int layer = 0; layer < MAX_LAYERS; layer++) {
+            led_layouts[layer].brightness = 10; // Default brightness
+
+            for (int k = 0; k < LED_COUNT; k++) {
+                // Hardcode bytecode to push 255.0f for Red, Green, and Blue
+                led_layouts[layer].leds[k].red.count = 1;
+                led_layouts[layer].leds[k].red.instrs[0] = (Instruction){OP_PUSH_NUM, 255.0f};
+
+                led_layouts[layer].leds[k].green.count = 1;
+                led_layouts[layer].leds[k].green.instrs[0] = (Instruction){OP_PUSH_NUM, 255.0f};
+
+                led_layouts[layer].leds[k].blue.count = 1;
+                led_layouts[layer].leds[k].blue.instrs[0] = (Instruction){OP_PUSH_NUM, 255.0f};
+            }
+        }
+        return;
+    }
 
     cJSON *root = cJSON_Parse(u_json_buf);
     if (!root) return;
@@ -467,13 +485,15 @@ void cdc_config_task(void *data) {
                 tud_cdc_write_flush();
             }
             else if (strstr(rx_buffer, "UG_TOGGLE")) {
-                // TODO
-                tud_cdc_write_str("Underglow toggled.\r\n");
+                underglow_enabled = !underglow_enabled;
+                tud_cdc_write_str(underglow_enabled ? "Underglow ON.\r\n" : "Underglow OFF.\r\n");
                 tud_cdc_write_flush();
             }
             else if (strstr(rx_buffer, "UG_MODE_NEXT")) {
-                // TODO
-                tud_cdc_write_str("Next underglow mode selected.\r\n");
+                current_underglow_layer = (current_underglow_layer + 1) % MAX_LAYERS;
+                char msg[40];
+                snprintf(msg, sizeof(msg), "Underglow mode changed to %d.\r\n", current_underglow_layer);
+                tud_cdc_write_str(msg);
                 tud_cdc_write_flush();
             }
 
@@ -627,4 +647,3 @@ void vApplicationGetTimerTaskMemory(
     *pulTimerTaskStackSize   = configMINIMAL_STACK_SIZE;
 }
 #endif
- 

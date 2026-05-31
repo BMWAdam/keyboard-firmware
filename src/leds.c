@@ -1,6 +1,7 @@
 #include <FreeRTOS.h>
 #include <task.h>
 #include <math.h>
+#include <string.h>
 #include "hardware/dma.h"
 #include "hardware/irq.h"
 #include "hardware/timer.h"
@@ -11,6 +12,7 @@ static TaskHandle_t underglow_task_handle = NULL;
 
 LayerLEDConfig led_layouts[MAX_LAYERS];
 uint8_t current_underglow_layer = 0;
+volatile bool underglow_enabled = true;
 
 void set_brightness(uint8_t b) {
     global_brightness = b;
@@ -108,6 +110,14 @@ void underglow_task(void *data) {
 
     for (;;) {
         if (config_updating) {
+            vTaskDelay(pdMS_TO_TICKS(50));
+            continue;
+        }
+
+        // toggle logic
+        if (!underglow_enabled) {
+            memset(pixels, 0, sizeof(pixels));
+            show_leds(pixels, LED_COUNT);
             vTaskDelay(pdMS_TO_TICKS(50));
             continue;
         }

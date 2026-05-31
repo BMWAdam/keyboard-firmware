@@ -2,6 +2,7 @@
 #define LEDS_H
 
 #include <stdint.h>
+#include <stdbool.h>
 #include "hardware/pio.h"
 #include "hardware/clocks.h"
 #include "ws2812.pio.h"
@@ -45,6 +46,7 @@ typedef struct {
 
 extern LayerLEDConfig led_layouts[MAX_LAYERS];
 extern uint8_t current_underglow_layer;
+extern volatile bool underglow_enabled;
 
 uint32_t sk6812_color(uint8_t r, uint8_t g, uint8_t b);
 void underglow_init(void);
