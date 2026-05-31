@@ -40,7 +40,7 @@
 #define CFG_TUD_CDC_EP_BUFSIZE    64
 
 // --- HID ---
-#define CFG_TUD_HID_EP_BUFSIZE    16
+#define CFG_TUD_HID_EP_BUFSIZE    32
 
 #ifdef __cplusplus
  }
