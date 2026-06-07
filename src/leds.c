@@ -1,58 +1,23 @@
 #include <FreeRTOS.h>
 #include <task.h>
-#include <math.h>
 #include <string.h>
 #include "hardware/dma.h"
 #include "hardware/irq.h"
 #include "hardware/timer.h"
 #include "leds.h"
 
-static uint8_t global_brightness = 10;
+#define UNDERGLOW_BRIGHTNESS 254  // dim white, out of 255
+
 static TaskHandle_t underglow_task_handle = NULL;
 
-LayerLEDConfig led_layouts[MAX_LAYERS];
-uint8_t current_underglow_layer = 0;
 volatile bool underglow_enabled = true;
 
-void set_brightness(uint8_t b) {
-    global_brightness = b;
-}
-
 uint32_t sk6812_color(uint8_t r, uint8_t g, uint8_t b) {
-    r = (r * global_brightness) / 255;
-    g = (g * global_brightness) / 255;
-    b = (b * global_brightness) / 255;
+    r = (r * UNDERGLOW_BRIGHTNESS) / 255;
+    g = (g * UNDERGLOW_BRIGHTNESS) / 255;
+    b = (b * UNDERGLOW_BRIGHTNESS) / 255;
 
-    return ((uint32_t)g << 24) | ((uint32_t)r << 16) | ((uint32_t)b <<  8); 
-}
-
-#define CALC_STACK_SIZE 8 
-
-float evaluate_bytecode(CompiledExpr* expr, float current_t) {
-    if (expr->count == 0) return 0.0f;
-    
-    float stack[CALC_STACK_SIZE];
-    int sp = 0;
-    
-    for (int i = 0; i < expr->count; i++) {
-        Instruction inst = expr->instrs[i];
-        switch (inst.op) {
-            case OP_PUSH_NUM: if (sp < CALC_STACK_SIZE) stack[sp++] = inst.value; break;
-            case OP_PUSH_T:   if (sp < CALC_STACK_SIZE) stack[sp++] = current_t; break;
-            case OP_ADD:      if (sp >= 2) { sp--; stack[sp-1] = stack[sp-1] + stack[sp]; } break;
-            case OP_SUB:      if (sp >= 2) { sp--; stack[sp-1] = stack[sp-1] - stack[sp]; } break;
-            case OP_MUL:      if (sp >= 2) { sp--; stack[sp-1] = stack[sp-1] * stack[sp]; } break;
-            case OP_DIV:      
-                if (sp >= 2) { 
-                    sp--; 
-                    stack[sp-1] = (stack[sp] != 0.0f) ? stack[sp-1] / stack[sp] : 0.0f; 
-                } 
-                break;
-            case OP_SIN:      if (sp >= 1) { stack[sp-1] = sinf(stack[sp-1]); } break;
-            default: break;
-        }
-    }
-    return (sp > 0) ? stack[0] : 0.0f;
+    return ((uint32_t)g << 24) | ((uint32_t)r << 16) | ((uint32_t)b << 8);
 }
 
 static PIO  led_pio;
@@ -72,17 +37,17 @@ void underglow_init(void) {
     led_pio = pio0;
     uint offset = pio_add_program(led_pio, &ws2812_program);
     led_sm = pio_claim_unused_sm(led_pio, true);
-    
+
     ws2812_program_init(led_pio, led_sm, offset, LED_PIN, LED_FREQ_HZ, false);
     gpio_disable_pulls(LED_PIN);
 
     dma_chan = dma_claim_unused_channel(true);
     dma_channel_config c = dma_channel_get_default_config(dma_chan);
-    
+
     channel_config_set_transfer_data_size(&c, DMA_SIZE_32);
-    channel_config_set_read_increment(&c, true);  
-    channel_config_set_write_increment(&c, false); 
-    channel_config_set_dreq(&c, pio_get_dreq(led_pio, led_sm, true)); 
+    channel_config_set_read_increment(&c, true);
+    channel_config_set_write_increment(&c, false);
+    channel_config_set_dreq(&c, pio_get_dreq(led_pio, led_sm, true));
 
     dma_channel_configure(
         dma_chan, &c, &led_pio->txf[led_sm], NULL, 0, false
@@ -106,7 +71,14 @@ void underglow_task(void *data) {
     (void)data;
     underglow_task_handle = xTaskGetCurrentTaskHandle();
 
-    uint64_t boot_time = time_us_64();
+    static const uint32_t white_pixel = 0;  // computed once below
+    uint32_t dim_white;
+
+    // Pre-compute dim white in SK6812 GRB format
+    {
+        uint8_t v = UNDERGLOW_BRIGHTNESS;
+        dim_white = ((uint32_t)v << 24) | ((uint32_t)v << 16) | ((uint32_t)v << 8);
+    }
 
     for (;;) {
         if (config_updating) {
@@ -114,30 +86,15 @@ void underglow_task(void *data) {
             continue;
         }
 
-        // toggle logic
         if (!underglow_enabled) {
             memset(pixels, 0, sizeof(pixels));
-            show_leds(pixels, LED_COUNT);
-            vTaskDelay(pdMS_TO_TICKS(50));
-            continue;
+        } else {
+            for (uint i = 0; i < LED_COUNT; i++) {
+                pixels[i] = dim_white;
+            }
         }
 
-        float T = (float)(time_us_64() - boot_time) / 1000000.0f;
-
-        uint8_t current_bright = led_layouts[current_underglow_layer].brightness;
-        set_brightness(current_bright);
-
-        for (uint i = 0; i < LED_COUNT; i++) {
-            DynamicLED* d_led = &led_layouts[current_underglow_layer].leds[i];
-            
-            uint8_t r = (uint8_t)fmaxf(0.0f, fminf(255.0f, evaluate_bytecode(&d_led->red, T)));
-            uint8_t g = (uint8_t)fmaxf(0.0f, fminf(255.0f, evaluate_bytecode(&d_led->green, T)));
-            uint8_t b = (uint8_t)fmaxf(0.0f, fminf(255.0f, evaluate_bytecode(&d_led->blue, T)));
-
-            pixels[i] = sk6812_color(r, g, b);
-        }
-        
         show_leds(pixels, LED_COUNT);
-        vTaskDelay(pdMS_TO_TICKS(20));
+        vTaskDelay(pdMS_TO_TICKS(50));
     }
 }

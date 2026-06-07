@@ -1,623 +1,133 @@
 {
-  "0":
-  {
+  "0": {
     "leds": [
-      {
-        "red": "128 * 2 - 1",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      },
-      {
-        "red": "0",
-        "green": "255",
-        "blue": "0"
-      },
-      {
-        "red": "255",
-        "green": "255",
-        "blue": "255"
-      }
+      { "red": "SUB(MUL(128, 2), 1)", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" },
+      { "red": "0", "green": "255", "blue": "0" },
+      { "red": "255", "green": "255", "blue": "255" }
     ],
     "brightness": 10
   },
-  "1":
-  {
+  "1": {
     "leds": [
-      {
-        "red": "SIN(T + (2 * PI / 3)) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      },
-      {
-        "red": "0",
-        "green": "SIN(T) * 255",
-        "blue": "0"
-      },
-      {
-        "red": "SIN(T) * 255",
-        "green": "SIN(T) * 255",
-        "blue": "SIN(T) * 255"
-      }
+      { "red": "MUL(ABS(SIN(SUM(T, DIV(MUL(2, PI), 3)))), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" },
+      { "red": "0", "green": "MUL(ABS(SIN(T)), 255)", "blue": "0" },
+      { "red": "MUL(ABS(SIN(T)), 255)", "green": "MUL(ABS(SIN(T)), 255)", "blue": "MUL(ABS(SIN(T)), 255)" }
     ],
     "brightness": 255
   }

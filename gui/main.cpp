@@ -210,6 +210,19 @@ public:
         m_serial.write("READ_CONFIG\n");
     }
 
+    Q_INVOKABLE void readUnderglowConfigFromPico() {
+        if (!m_serial.isOpen() || !m_serial.isWritable()) {
+            m_logText += "❌ Cannot read underglow config: Not connected\n";
+            emit logTextChanged();
+            return;
+        }
+
+        m_logText += "📥 Requesting underglow configuration from Pico...\n";
+        emit logTextChanged();
+        
+        m_serial.write("READ_UNDERGLOW_CONFIG\n");
+    }
+
 signals:
     void logTextChanged();
     void availablePortsChanged();
